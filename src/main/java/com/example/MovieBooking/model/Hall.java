@@ -25,28 +25,6 @@ public class Hall {
     private int hallno;
     private int size;
 
-    public int getHallno() {
-        return hallno;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cinema_cid")
-    @JsonManagedReference
-    @JsonIgnore
-    public Cinema getCinema() {
-        return cinema;
-    }
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cinema_cid")
-    @JsonManagedReference
-    @JsonIgnore
-    public void setCinema(Cinema cinema) {
-        this.cinema = cinema;
-    }
-
-    public void setHallno(int hallno) {
-        this.hallno = hallno;
-    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_cid")
@@ -58,10 +36,20 @@ public class Hall {
     @JsonBackReference
     @JsonIgnore
     private Set<Seat> seats;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cinema_cid")
+    @JsonManagedReference
+    @JsonIgnore
+    public Cinema getCinema() {
+        return cinema;
+    }
     @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     @JsonIgnore
     public Set<Seat> getSeats() {
         return seats;
     }
+
+
 }

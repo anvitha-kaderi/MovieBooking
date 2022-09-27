@@ -1,6 +1,7 @@
 package com.example.MovieBooking.Service;
 
 import com.example.MovieBooking.Error.CinemaNotFoundException;
+import com.example.MovieBooking.Error.CityNotFoundException;
 import com.example.MovieBooking.Repository.CinemaRepo;
 import com.example.MovieBooking.Repository.CityRepo;
 import com.example.MovieBooking.model.Cinema;
@@ -20,38 +21,36 @@ public class CinemaService {
 
     @Autowired
     public CityRepo cityRepo;
-    public List<Cinema> get_Cinema() {
+    public List<Cinema> getCinema() {
         return cinemaRepo.findAll();
     }
 
-    public void add_Cinema(int id, Cinema cine) {
-        //Optional<Cinema> c=cinemaRepo.findByNameAndCity(cine.getName(),cine.getCity());
-        Optional<City>cy= cityRepo.findById(id);
-        if(cy.isEmpty())
+    public void addCinema(int id, Cinema cinema) {
+        Optional<City>city= cityRepo.findById(id);
+        if(city.isEmpty())
         {
-            throw new CinemaNotFoundException("city not found ");
+            throw new CityNotFoundException("city not found ");
         }
-        cine.setCity(cy.get());
-        cinemaRepo.save(cine);
+        cinema.setCity(city.get());
+        cinemaRepo.save(cinema);
     }
 
 
-    public void updating_Cinema(int id, Cinema cust) {
-        Optional<Cinema> c= Optional.ofNullable(cinemaRepo.findById(id).orElseThrow(() -> new CinemaNotFoundException(Integer.toString(id))));
-       if(c.isEmpty())
+    public void updateCinema(int id, Cinema cinema) {
+        Optional<Cinema> cinema1= Optional.ofNullable(cinemaRepo.findById(id).orElseThrow(() -> new CinemaNotFoundException(Integer.toString(id))));
+       if(cinema1.isEmpty())
         {
             throw new CinemaNotFoundException(" Cinema Not found with id "+id);
         }
-        Cinema custo=c.get();
-        custo.setName(cust.getName());
-       // custo.setCity(cust.getCity());*/
-        cinemaRepo.save(cust);
+        Cinema updatedcinema=cinema1.get();
+        updatedcinema.setName(cinema.getName());
+        cinemaRepo.save(updatedcinema);
     }
 
 
-    public void deleleting_Cinema(int id) {
-        Optional<Cinema> c=cinemaRepo.findById(id);
-        if(c.isEmpty())
+    public void deleteCinema(int id) {
+        Optional<Cinema> cinema=cinemaRepo.findById(id);
+        if(cinema.isEmpty())
         {
             throw new CinemaNotFoundException(" Cinema Not found with id "+id);
         }

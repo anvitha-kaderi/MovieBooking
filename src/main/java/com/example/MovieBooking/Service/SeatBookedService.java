@@ -22,31 +22,31 @@ public class SeatBookedService {
     @Autowired
     public SeatBookedRepo seatBookedRepo;
 
-    public List<SeatBooked> get_SeatBooked() {
+    public List<SeatBooked> getSeatBooked() {
         return seatBookedRepo.findAll();
     }
 
-    public void add_SeatBooked(int id1,int id2,int id3,SeatBooked cine) {
-        Optional<Seat> c=seatRepo.findById(id1);
-        Optional<Booking> cb=bookingRepo.findById(id2);
-        Optional<Show>cs= showRepo.findById(id3);
-        if(c.isEmpty() || cb.isEmpty() || cs.isEmpty())
+    public void addSeatBooked(int id1,int id2,int id3,SeatBooked seatBooked) {
+        Optional<Seat> seat=seatRepo.findById(id1);
+        Optional<Booking> booking=bookingRepo.findById(id2);
+        Optional<Show>show= showRepo.findById(id3);
+        if(seat.isEmpty() || booking.isEmpty() || show.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Enter correct data");
         }
-        cine.setSeat(c.get());
-        cine.setBooking(cb.get());
-        cine.setShow(cs.get());
-        seatBookedRepo.save(cine);
+        seatBooked.setSeat(seat.get());
+        seatBooked.setBooking(booking.get());
+        seatBooked.setShow(show.get());
+        seatBookedRepo.save(seatBooked);
     }
 
 
 
 
 
-    public void deleleting_SeatBooked(int id) {
-        Optional<SeatBooked> c=seatBookedRepo.findById(id);
-        if(c.isEmpty())
+    public void deleteSeatBooked(int id) {
+        Optional<SeatBooked> seatBooked=seatBookedRepo.findById(id);
+        if(seatBooked.isEmpty())
         {
             throw new SeatBookedNotFoundException(" SeatBooked Not found with id "+id);
         }

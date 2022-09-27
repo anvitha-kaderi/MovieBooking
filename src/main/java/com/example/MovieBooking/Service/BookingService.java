@@ -20,27 +20,27 @@ public class BookingService {
     @Autowired
     public ShowRepo showRepo;
 
-    public List<Booking> get_Booking() {
+    public List<Booking> getBooking() {
         return bookingRepo.findAll();
     }
 
-    public void add_Booking(int id1,int id2,Booking cine) {
-        Optional<Customer>cy= customerRepo.findById(id1);
-        Optional<Show> c=showRepo.findById(id2);
-        if(c.isEmpty() || cy.isEmpty())
+    public void addBooking(int id1,int id2,Booking booking) {
+        Optional<Customer> customer= customerRepo.findById(id1);
+        Optional<Show> show=showRepo.findById(id2);
+        if(customer.isEmpty() || show.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT," Error ");
         }
-        cine.setCustomer(cy.get());
-        cine.setShow(c.get());
-        bookingRepo.save(cine);
+        booking.setCustomer(customer.get());
+        booking.setShow(show.get());
+        bookingRepo.save(booking);
     }
 
 
 
-    public void deleleting_Booking(int id) {
-        Optional<Booking> c=bookingRepo.findById(id);
-        if(c.isEmpty())
+    public void deleteBooking(int id) {
+        Optional<Booking> booking=bookingRepo.findById(id);
+        if(booking.isEmpty())
         {
             throw new BookingNotFoundException(" Booking Not found with id "+id);
         }

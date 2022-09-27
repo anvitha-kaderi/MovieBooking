@@ -1,6 +1,6 @@
 package com.example.MovieBooking.Controller;
 
-import com.example.MovieBooking.Service.CustService;
+import com.example.MovieBooking.Service.CustomerService;
 import com.example.MovieBooking.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,32 +13,32 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    public CustService service;
+    public CustomerService service;
     @GetMapping("/customers")
-    public ResponseEntity<List<Customer>> custlist()
+    public ResponseEntity<List<Customer>> getCusotmers()
     {
-        List<Customer> c=service.get_customer();
-        return ResponseEntity.ok().body(c);
+        List<Customer> customers=service.getCustomer();
+        return ResponseEntity.ok().body(customers);
     }
 
     @PostMapping("/customer")
-    public ResponseEntity<HttpStatus> customers(@RequestBody Customer cust)
+    public ResponseEntity<HttpStatus> saveCustomer(@RequestBody Customer customer)
     {
-        service.add_customer(cust);
+        service.addCustomer(customer);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
     @PutMapping("/customer/{id}")
-    public ResponseEntity<HttpStatus> updatingc(@PathVariable("id") int id , @RequestBody Customer cust)
+    public ResponseEntity<HttpStatus> updateCustomer(@PathVariable("id") int id , @RequestBody Customer customer)
     {
-        service.updating_customer(id,cust);
+        service.updateCustomer(id,customer);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 
     @DeleteMapping("/customer/{id}")
-    public ResponseEntity<HttpStatus> deletingc(@PathVariable("id") int id)
+    public ResponseEntity<HttpStatus> clearCustomer(@PathVariable("id") int id)
     {
-        service.deleleting_customer(id);
+        service.deleteCustomer(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
     }

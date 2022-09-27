@@ -15,13 +15,13 @@ import java.util.Optional;
 public class CityService {
     @Autowired
     public CityRepo cityRepo;
-    public List<City> get_City() {
+    public List<City> getCity() {
         return cityRepo.findAll();
     }
 
-    public void add_City(City city) {
-        Optional<City> c=cityRepo.findByCitynameAndState(city.getCityname(),city.getState());
-        if(c.isPresent())
+    public void addCity(City city) {
+        Optional<City> city1=cityRepo.findByCitynameAndState(city.getCityname(),city.getState());
+        if(city1.isPresent())
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Data already exists");
         }
@@ -29,22 +29,22 @@ public class CityService {
     }
 
 
-    public void updating_City(int id, City city) {
-        Optional<City> c= Optional.ofNullable(cityRepo.findById(id).orElseThrow(() -> new CityNotFoundException(Integer.toString(id))));
-        if(c.isEmpty())
+    public void updateCity(int id, City city) {
+        Optional<City> city1= Optional.ofNullable(cityRepo.findById(id).orElseThrow(() -> new CityNotFoundException(Integer.toString(id))));
+        if(city1.isEmpty())
         {
             throw new CityNotFoundException(" City Not found with id "+id);
         }
-        City cityo=c.get();
-        cityo.setState(city.getState());
-        cityo.setCityname(city.getCityname());
-        cityRepo.save(cityo);
+        City newcity=city1.get();
+        newcity.setState(city.getState());
+        newcity.setCityname(city.getCityname());
+        cityRepo.save(newcity);
     }
 
 
-    public void deleleting_City(int id) {
-        Optional<City> c=cityRepo.findById(id);
-        if(c.isEmpty())
+    public void deleteCity(int id) {
+        Optional<City> city=cityRepo.findById(id);
+        if(city.isEmpty())
         {
             throw new CityNotFoundException(" City Not found with id "+id);
         }

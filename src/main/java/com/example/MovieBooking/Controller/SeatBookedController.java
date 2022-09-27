@@ -14,25 +14,25 @@ public class SeatBookedController {
     @Autowired
     public SeatBookedService service;
     @GetMapping("/seatsbooked")
-    public ResponseEntity<List<SeatBooked>> SeatBookedlist()
+    public ResponseEntity<List<SeatBooked>> getSeatsbooked()
     {
-        List<SeatBooked> c=service.get_SeatBooked();
-        return ResponseEntity.ok().body(c);
+        List<SeatBooked> seats=service.getSeatBooked();
+        return ResponseEntity.ok().body(seats);
     }
 
     @PostMapping("/seat/{id1}/book/{id2}/show/{id3}/bookseat")
-    public ResponseEntity<HttpStatus> SeatBookedsposting(@PathVariable("id1") int id1,@PathVariable("id2") int id2,@PathVariable("id3") int id3,@RequestBody SeatBooked cust)
+    public ResponseEntity<HttpStatus> saveSeatBooked(@PathVariable("id1") int id1,@PathVariable("id2") int id2,@PathVariable("id3") int id3,@RequestBody SeatBooked seatBooked)
     {
-        service.add_SeatBooked(id1,id2,id3,cust);
+        service.addSeatBooked(id1,id2,id3,seatBooked);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
 
 
     @DeleteMapping("/seatbooked/{id}")
-    public ResponseEntity<HttpStatus> deletingSeatBooked(@PathVariable("id") int id)
+    public ResponseEntity<HttpStatus> clearSeatBooked(@PathVariable("id") int id)
     {
-        service.deleleting_SeatBooked(id);
+        service.deleteSeatBooked(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 }

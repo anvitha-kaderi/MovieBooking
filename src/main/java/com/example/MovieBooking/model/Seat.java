@@ -31,6 +31,11 @@ public class Seat {
     @JsonIgnore
     private Hall hall;
 
+    @OneToMany(mappedBy = "seat", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonBackReference
+    @JsonIgnore
+    private Set<SeatBooked> bookedSeats;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hall_hid")
     @JsonManagedReference
@@ -38,11 +43,6 @@ public class Seat {
     public Hall getHall() {
         return hall;
     }
-
-    @OneToMany(mappedBy = "seat", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JsonIgnore
-    private Set<SeatBooked> bookedSeats;
 
     @JsonBackReference
     @JsonIgnore

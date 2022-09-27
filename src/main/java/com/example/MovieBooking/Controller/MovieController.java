@@ -13,55 +13,55 @@ import java.util.List;
 public class MovieController {
     @Autowired
     public MovieService service;
-    @GetMapping("/movie")
-    public ResponseEntity<List<Movie>> Movielist()
+    @GetMapping("/movies")
+    public ResponseEntity<List<Movie>> getMovies()
     {
-        List<Movie> c=service.get_Movie();
-        return ResponseEntity.ok().body(c);
+        List<Movie> movies=service.getMovie();
+        return ResponseEntity.ok().body(movies);
     }
     @GetMapping("/title/movie")
-    public ResponseEntity<List<Movie>> Movietitle(@RequestParam String s)
+    public ResponseEntity<List<Movie>> getMovieByTitle(@RequestParam String name)
     {
-        List<Movie> c=service.getting("title",s);
+        List<Movie> c=service.fetchingMovie("title", name);
         return ResponseEntity.ok().body(c);
     }
     @GetMapping("/lang/movie")
-    public ResponseEntity<List<Movie>> Moviel(@RequestParam String s)
+    public ResponseEntity<List<Movie>> getMovieByLanguage(@RequestParam String name)
     {
-        List<Movie> c=service.getting("Lang",s);
+        List<Movie> c=service.fetchingMovie("Lang",name);
         return ResponseEntity.ok().body(c);
     }
     @GetMapping("/genre/movie")
-    public ResponseEntity<List<Movie>> Movieg(@RequestParam String s)
+    public ResponseEntity<List<Movie>> getMovieByGenre(@RequestParam String name)
     {
-        List<Movie> c=service.getting("genre",s);
+        List<Movie> c=service.fetchingMovie("genre",name);
         return ResponseEntity.ok().body(c);
     }
     @GetMapping("/duration/movie")
-    public ResponseEntity<List<Movie>> Movied(@RequestParam String s)
+    public ResponseEntity<List<Movie>> getMovieByDuration(@RequestParam String name)
     {
-        List<Movie> c=service.getting("duration",s);
+        List<Movie> c=service.fetchingMovie("duration",name);
         return ResponseEntity.ok().body(c);
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<HttpStatus> PostingMovies(@RequestBody Movie cust)
+    public ResponseEntity<HttpStatus> saveMovie(@RequestBody Movie movie)
     {
-        service.add_Movie(cust);
+        service.addMovie(movie);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
     @PutMapping("/movie/{id}")
-    public ResponseEntity<HttpStatus> updatingMovie(@PathVariable("id") int id , @RequestBody Movie cust)
+    public ResponseEntity<HttpStatus> updateMovie(@PathVariable("id") int id , @RequestBody Movie movie)
     {
-        service.updating_Movie(id,cust);
+        service.updateMovie(id,movie);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 
     @DeleteMapping("/movie/{id}")
-    public ResponseEntity<HttpStatus> deletingMovie(@PathVariable("id") int id)
+    public ResponseEntity<HttpStatus> clearMovie(@PathVariable("id") int id)
     {
-        service.deleleting_Movie(id);
+        service.deleteMovie(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 }

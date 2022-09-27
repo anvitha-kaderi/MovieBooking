@@ -1,6 +1,5 @@
 package com.example.MovieBooking.Controller;
 
-import com.example.MovieBooking.Service.CustService;
 import com.example.MovieBooking.Service.HallService;
 import com.example.MovieBooking.model.Hall;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,31 +14,31 @@ public class HallController {
 
     @Autowired
     public HallService service;
-    @GetMapping("/cinema/{id}/halls")
-    public ResponseEntity<List<Hall>> halllist(@PathVariable("id") int id)
+    @GetMapping("/halls")
+    public ResponseEntity<List<Hall>> getHalls()
     {
-        List<Hall> c=service.get_Hall();
-        return ResponseEntity.ok().body(c);
+        List<Hall> halls=service.getHall();
+        return ResponseEntity.ok().body(halls);
     }
 
     @PostMapping("/cinema/{id}/hall")
-    public ResponseEntity<HttpStatus> Hallsposting(@PathVariable("id") int id,@RequestBody Hall cust)
+    public ResponseEntity<HttpStatus> saveHall(@PathVariable("id") int id,@RequestBody Hall hall)
     {
-        service.add_Hall(id,cust);
+        service.addHall(id,hall);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
     @PutMapping("/hall/{id}")
-    public ResponseEntity<HttpStatus> updatinghall(@PathVariable("id") int id , @RequestBody Hall cust)
+    public ResponseEntity<HttpStatus> updateHall(@PathVariable("id") int id , @RequestBody Hall hall)
     {
-        service.updating_Hall(id,cust);
+        service.updateHall(id,hall);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 
     @DeleteMapping("/hall/{id}")
-    public ResponseEntity<HttpStatus> deletinghall(@PathVariable("id") int id)
+    public ResponseEntity<HttpStatus> deleteHall(@PathVariable("id") int id)
     {
-        service.deleleting_Hall(id);
+        service.deleteHall(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 }

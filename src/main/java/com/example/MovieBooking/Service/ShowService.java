@@ -25,41 +25,40 @@ public class ShowService {
 
     @Autowired
     public MovieRepo movierepo;
-    public List<Show> get_Show() {
+    public List<Show> getShow() {
         return ShowRepo.findAll();
     }
 
-    public void add_Show(int id1, int id2,Show cine) {
-        //Optional<Show> c=ShowRepo.findByDateAndStart_timeAndEnd_time(cine.getDate(),cine.getStart_time(),cine.getEnd_time());
-        Optional<Hall>cy= hallRepo.findById(id1);
-        Optional<Movie> my=movierepo.findById(id2);
-        if(cy.isEmpty() || my.isEmpty())
+    public void addShow(int id1, int id2,Show show) {
+        Optional<Hall>hall= hallRepo.findById(id1);
+        Optional<Movie> movie=movierepo.findById(id2);
+        if(hall.isEmpty() || movie.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Data already exists");
         }
-        cine.setHall(cy.get());
-        cine.setMovie(my.get());
-        ShowRepo.save(cine);
+        show.setHall(hall.get());
+        show.setMovie(movie.get());
+        ShowRepo.save(show);
     }
 
 
-    public void updating_Show(int id, Show cust) {
+    public void updateShow(int id, Show show) {
         Optional<Show> c= Optional.ofNullable(ShowRepo.findById(id).orElseThrow(() -> new ShowNotFoundException(Integer.toString(id))));
         if(c.isEmpty())
         {
             throw new ShowNotFoundException(" Show Not found with id "+id);
         }
-        Show custo=c.get();
-        custo.setDate(cust.getDate());
-        custo.setStart_time(cust.getStart_time());
-        custo.setEnd_time(cust.getEnd_time());
-        ShowRepo.save(custo);
+        Show newshow=c.get();
+        newshow.setDate(show.getDate());
+        newshow.setStart_time(show.getStart_time());
+        newshow.setEnd_time(show.getEnd_time());
+        ShowRepo.save(newshow);
     }
 
 
-    public void deleleting_Show(int id) {
-        Optional<Show> c=ShowRepo.findById(id);
-        if(c.isEmpty())
+    public void deleteShow(int id) {
+        Optional<Show> show=ShowRepo.findById(id);
+        if(show.isEmpty())
         {
             throw new ShowNotFoundException(" Show Not found with id "+id);
         }

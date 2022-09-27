@@ -22,38 +22,38 @@ public class HallService {
     @Autowired
     public CinemaRepo cinemaRepo;
 
-    public List<Hall> get_Hall() {
+    public List<Hall> getHall() {
         return hallRepo.findAll();
     }
 
-    public void add_Hall(int id,Hall cine) {
-        Optional<Hall> c=hallRepo.findByHallnoAndSize(cine.getHallno(), cine.getSize());
-        Optional<Cinema>cy= cinemaRepo.findById(id);
-        if(c.isPresent() || cy.isEmpty())
+    public void addHall(int id,Hall hall) {
+        Optional<Hall> hall1=hallRepo.findByHallnoAndSize(hall.getHallno(), hall.getSize());
+        Optional<Cinema>cinema= cinemaRepo.findById(id);
+        if(hall1.isPresent() || cinema.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Data already exists");
         }
-        cine.setCinema(cy.get());
-        hallRepo.save(cine);
+        hall.setCinema(cinema.get());
+        hallRepo.save(hall);
     }
 
 
-    public void updating_Hall(int id, Hall cust) {
+    public void updateHall(int id, Hall hall) {
         Optional<Hall> c= Optional.ofNullable(hallRepo.findById(id).orElseThrow(() -> new HallNotFoundException(Integer.toString(id))));
         if(c.isEmpty())
         {
             throw new HallNotFoundException(" Hall Not found with id "+id);
         }
-        Hall custo=c.get();
-        custo.setHallno(cust.getHallno());
-        custo.setSize(cust.getSize());
-        hallRepo.save(custo);
+        Hall newhall=c.get();
+        newhall.setHallno(hall.getHallno());
+        newhall.setSize(hall.getSize());
+        hallRepo.save(newhall);
     }
 
 
-    public void deleleting_Hall(int id) {
-        Optional<Hall> c=hallRepo.findById(id);
-        if(c.isEmpty())
+    public void deleteHall(int id) {
+        Optional<Hall> hall=hallRepo.findById(id);
+        if(hall.isEmpty())
         {
             throw new HallNotFoundException(" Hall Not found with id "+id);
         }

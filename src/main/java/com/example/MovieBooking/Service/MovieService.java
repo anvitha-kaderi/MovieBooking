@@ -15,15 +15,15 @@ import java.util.Optional;
 public class MovieService {
     @Autowired
     public MovieRepo movieRepo;
-    public List<Movie> get_Movie() {
+    public List<Movie> getMovie() {
         return movieRepo.findAll();
     }
 
-    public  List<Movie> getting(String s, String v){
+    public  List<Movie> fetchingMovie(String s, String v){
         List<Movie> c=new ArrayList<>();
         if(s=="title")
         {
-           c= (List<Movie>) movieRepo.findAllByTitle(v).orElseThrow(() -> new MovieNotFoundException(v+" not found"));
+           c= (List<Movie>) movieRepo.findAllByTitle(v).orElseThrow(() -> new MovieNotFoundException("movie not found"));
         }
         else if(s=="lang")
         {
@@ -39,9 +39,9 @@ public class MovieService {
         }
         return c;
     }
-    public void add_Movie(Movie movie) {
-        Optional<Movie> c=movieRepo.findByTitleAndLanguageAndGenreAndDuration(movie.getTitle(),movie.getLanguage(),movie.getGenre(),movie.getDuration());
-        if(c.isPresent())
+    public void addMovie(Movie movie) {
+        Optional<Movie> movie1=movieRepo.findByTitleAndLanguageAndGenreAndDuration(movie.getTitle(),movie.getLanguage(),movie.getGenre(),movie.getDuration());
+        if(movie1.isPresent())
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Data already exists");
         }
@@ -49,24 +49,24 @@ public class MovieService {
     }
 
 
-    public void updating_Movie(int id, Movie movie) {
-        Optional<Movie> c= Optional.ofNullable(movieRepo.findById(id).orElseThrow(() -> new MovieNotFoundException(Integer.toString(id))));
-        if(c.isEmpty())
+    public void updateMovie(int id, Movie movie) {
+        Optional<Movie> movie1= Optional.ofNullable(movieRepo.findById(id).orElseThrow(() -> new MovieNotFoundException(Integer.toString(id))));
+        if(movie1.isEmpty())
         {
             throw new MovieNotFoundException(" Movie Not found with id "+id);
         }
-        Movie movieo=c.get();
-        movieo.setTitle(movie.getTitle());
-        movieo.setLanguage(movie.getLanguage());
-        movieo.setGenre(movie.getGenre());
-        movieo.setDuration(movie.getDuration());
-        movieRepo.save(movieo);
+        Movie newmovie=movie1.get();
+        newmovie.setTitle(movie.getTitle());
+        newmovie.setLanguage(movie.getLanguage());
+        newmovie.setGenre(movie.getGenre());
+        newmovie.setDuration(movie.getDuration());
+        movieRepo.save(newmovie);
     }
 
 
-    public void deleleting_Movie(int id) {
-        Optional<Movie> c=movieRepo.findById(id);
-        if(c.isEmpty())
+    public void deleteMovie(int id) {
+        Optional<Movie> movie=movieRepo.findById(id);
+        if(movie.isEmpty())
         {
             throw new MovieNotFoundException(" Movie Not found with id "+id);
         }

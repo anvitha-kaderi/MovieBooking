@@ -20,39 +20,38 @@ public class SeatService {
     @Autowired
     public HallRepo hallRepo;
 
-    public List<Seat> get_Seat() {
+    public List<Seat> getSeat() {
         return seatRepo.findAll();
     }
 
-    public void add_Seat(int id,Seat cine) {
-       // Optional<Seat> c=seatRepo.findByNoAndHall(cine.getNo(), cine.getHall());
-       Optional<Hall>cy= hallRepo.findById(id);
+    public void addSeat(int id,Seat seat) {
+       Optional<Hall>hall= hallRepo.findById(id);
 
-        if(cy.isEmpty())
+        if(hall.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Data already exists");
         }
-        cine.setHall(cy.get());
-        seatRepo.save(cine);
+        seat.setHall(hall.get());
+        seatRepo.save(seat);
     }
 
 
-    public void updating_Seat(int id, Seat cust) {
+    public void updateSeat(int id, Seat seat) {
         Optional<Seat> c= Optional.ofNullable(seatRepo.findById(id).orElseThrow(() -> new SeatNotFoundException(Integer.toString(id))));
         if(c.isEmpty())
         {
             throw new SeatNotFoundException(" Seat Not found with id "+id);
         }
-        Seat custo=c.get();
-        custo.setNo(cust.getNo());
-        custo.setHall(cust.getHall());
-        seatRepo.save(custo);
+        Seat newseat=c.get();
+        newseat.setNo(seat.getNo());
+        newseat.setHall(seat.getHall());
+        seatRepo.save(newseat);
     }
 
 
-    public void deleleting_Seat(int id) {
-        Optional<Seat> c=seatRepo.findById(id);
-        if(c.isEmpty())
+    public void deleteSeat(int id) {
+        Optional<Seat> seat=seatRepo.findById(id);
+        if(seat.isEmpty())
         {
             throw new SeatNotFoundException(" Seat Not found with id "+id);
         }

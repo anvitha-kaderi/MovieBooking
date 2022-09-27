@@ -15,30 +15,30 @@ public class CityController {
     @Autowired
     public CityService service;
     @GetMapping("/cities")
-    public ResponseEntity<List<City>> custlist()
+    public ResponseEntity<List<City>> getCities()
     {
-        List<City> c=service.get_City();
-        return ResponseEntity.ok().body(c);
+        List<City> city=service.getCity();
+        return ResponseEntity.ok().body(city);
     }
 
     @PostMapping("/city")
-    public ResponseEntity<HttpStatus> postingCity(@RequestBody City cust)
+    public ResponseEntity<HttpStatus> saveCity(@RequestBody City city)
     {
-        service.add_City(cust);
+        service.addCity(city);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
     @PutMapping("/city/{id}")
-    public ResponseEntity<HttpStatus> updatingcity(@PathVariable("id") int id , @RequestBody City cust)
+    public ResponseEntity<HttpStatus> updateCity(@PathVariable("id") int id , @RequestBody City city)
     {
-        service.updating_City(id,cust);
+        service.updateCity(id,city);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 
     @DeleteMapping("/city/{id}")
-    public ResponseEntity<HttpStatus> deletingcity(@PathVariable("id") int id)
+    public ResponseEntity<HttpStatus> clearCity(@PathVariable("id") int id)
     {
-        service.deleleting_City(id);
+        service.deleteCity(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 }

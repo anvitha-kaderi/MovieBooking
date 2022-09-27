@@ -14,30 +14,30 @@ public class ShowController {
     @Autowired
     public ShowService service;
     @GetMapping("/shows")
-    public ResponseEntity<List<Show>> Showlist()
+    public ResponseEntity<List<Show>> getShows()
     {
-        List<Show> c=service.get_Show();
-        return ResponseEntity.ok().body(c);
+        List<Show> shows=service.getShow();
+        return ResponseEntity.ok().body(shows);
     }
 
     @PostMapping("hall/{id1}/movie/{id2}/show")
-    public ResponseEntity<HttpStatus> PostingShows(@PathVariable("id1") int id1, @PathVariable("id2") int id2, @RequestBody Show cust)
+    public ResponseEntity<HttpStatus> saveShow(@PathVariable("id1") int id1, @PathVariable("id2") int id2, @RequestBody Show show)
     {
-        service.add_Show(id1,id2,cust);
+        service.addShow(id1,id2,show);
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
     @PutMapping("/show/{id}")
-    public ResponseEntity<HttpStatus> updatingShow(@PathVariable("id") int id , @RequestBody Show cust)
+    public ResponseEntity<HttpStatus> updateShow(@PathVariable("id") int id , @RequestBody Show show)
     {
-        service.updating_Show(id,cust);
+        service.updateShow(id,show);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 
     @DeleteMapping("/show/{id}")
-    public ResponseEntity<HttpStatus> deletingShow(@PathVariable("id") int id)
+    public ResponseEntity<HttpStatus> clearShow(@PathVariable("id") int id)
     {
-        service.deleleting_Show(id);
+        service.deleteShow(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 }
