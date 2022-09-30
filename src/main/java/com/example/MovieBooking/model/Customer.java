@@ -32,6 +32,18 @@ public class Customer {
     @JsonIgnore
     private Set<Booking> bookings;
 
+
+    @JsonBackReference
+    @JsonIgnore
+    public Set<Payment> getPayments() {
+        return payments;
+    }
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @JsonBackReference
+    @JsonIgnore
+    private Set<Payment> payments;
+
     @JsonBackReference
     @JsonIgnore
     public Set<Booking> getBookings() {

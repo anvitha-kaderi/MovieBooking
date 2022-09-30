@@ -26,6 +26,14 @@ public class SeatBookedService {
         return seatBookedRepo.findAll();
     }
 
+    public boolean checkseat(int seatid)
+    {
+        Optional<SeatBooked> seat=seatBookedRepo.findById(seatid);
+        if(seat.isPresent())
+            return false;
+        return true;
+    }
+
     public void addSeatBooked(int id1,int id2,int id3,SeatBooked seatBooked) {
         Optional<Seat> seat=seatRepo.findById(id1);
         Optional<Booking> booking=bookingRepo.findById(id2);
@@ -34,6 +42,8 @@ public class SeatBookedService {
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Enter correct data");
         }
+        if(!checkseat(id1))
+            throw new ResponseStatusException(HttpStatus.ALREADY_REPORTED,"Seat already booked");
         seatBooked.setSeat(seat.get());
         seatBooked.setBooking(booking.get());
         seatBooked.setShow(show.get());

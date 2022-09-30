@@ -20,7 +20,7 @@ public class MovieController {
         return ResponseEntity.ok().body(movies);
     }
     @GetMapping("/title/movie")
-    public ResponseEntity<List<Movie>> getMovieByTitle(@RequestParam String name)
+    public ResponseEntity<List<Movie>> getMovieByTitle(@RequestParam(name="title") String name)
     {
         List<Movie> c=service.fetchingMovie("title", name);
         return ResponseEntity.ok().body(c);

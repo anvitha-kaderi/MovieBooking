@@ -48,6 +48,6 @@ public class CityService {
         {
             throw new CityNotFoundException(" City Not found with id "+id);
         }
-        cityRepo.deleteById(id);
+        cityRepo.delete(id);
     }
 }
