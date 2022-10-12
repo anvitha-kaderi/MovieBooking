@@ -21,17 +21,17 @@ public class ShowController {
     }
 
     @PostMapping("hall/{id1}/movie/{id2}/show")
-    public ResponseEntity<HttpStatus> saveShow(@PathVariable("id1") int id1, @PathVariable("id2") int id2, @RequestBody Show show)
+    public ResponseEntity<Show> saveShow(@PathVariable("id1") int id1, @PathVariable("id2") int id2, @RequestBody Show show)
     {
-        service.addShow(id1,id2,show);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        Show newshow=service.addShow(id1,id2,show);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newshow);
     }
 
     @PutMapping("/show/{id}")
-    public ResponseEntity<HttpStatus> updateShow(@PathVariable("id") int id , @RequestBody Show show)
+    public ResponseEntity<Show> updateShow(@PathVariable("id") int id , @RequestBody Show show)
     {
-        service.updateShow(id,show);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
+        Show updatedshow=service.updateShow(id,show);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedshow);
     }
 
     @DeleteMapping("/show/{id}")

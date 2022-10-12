@@ -2,6 +2,7 @@ package com.example.MovieBooking.Controller;
 
 import com.example.MovieBooking.Service.BookingService;
 import com.example.MovieBooking.model.Booking;
+import com.example.MovieBooking.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +23,11 @@ public class BookingController {
     }
 
 
-    //@PostMapping("/customer/{id1}/show/{id2}/booking")
     @PostMapping("/customer/{id1}/book")
-    public ResponseEntity<HttpStatus> saveBooking(@PathVariable("id1") int id1, @RequestParam("show") int id2,@RequestBody Booking booking)
+    public ResponseEntity<Booking> saveBooking(@PathVariable("id1") int id1, @RequestParam("show") int id2, @RequestBody Booking booking)
     {
-        service.addBooking(id1,id2,booking);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        Booking newbooking= service.addBooking(id1,id2,booking);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newbooking);
     }
 
 

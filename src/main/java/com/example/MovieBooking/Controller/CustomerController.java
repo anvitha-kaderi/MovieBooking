@@ -22,17 +22,17 @@ public class CustomerController {
     }
 
     @PostMapping("/customer")
-    public ResponseEntity<HttpStatus> saveCustomer(@RequestBody Customer customer)
+    public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer)
     {
-        service.addCustomer(customer);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        Customer newcustomer=service.addCustomer(customer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newcustomer);
     }
 
     @PutMapping("/customer/{id}")
-    public ResponseEntity<HttpStatus> updateCustomer(@PathVariable("id") int id , @RequestBody Customer customer)
+    public ResponseEntity<Customer> updateCustomer(@PathVariable("id") int id , @RequestBody Customer customer)
     {
-        service.updateCustomer(id,customer);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
+        Customer updatedcustomer=service.updateCustomer(id,customer);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedcustomer);
     }
 
     @DeleteMapping("/customer/{id}")

@@ -21,10 +21,10 @@ public class SeatBookedController {
     }
 
     @PostMapping("/seat/{id1}/book/{id2}/show/{id3}/bookseat")
-    public ResponseEntity<HttpStatus> saveSeatBooked(@PathVariable("id1") int id1,@PathVariable("id2") int id2,@PathVariable("id3") int id3,@RequestBody SeatBooked seatBooked)
+    public ResponseEntity<SeatBooked> saveSeatBooked(@PathVariable("id1") int id1,@PathVariable("id2") int id2,@PathVariable("id3") int id3,@RequestBody SeatBooked seatBooked)
     {
-        service.addSeatBooked(id1,id2,id3,seatBooked);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        SeatBooked newseatBooked=service.addSeatBooked(id1,id2,id3,seatBooked);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newseatBooked);
     }
 
 

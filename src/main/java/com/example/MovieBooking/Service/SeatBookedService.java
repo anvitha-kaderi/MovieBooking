@@ -6,6 +6,7 @@ import com.example.MovieBooking.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -34,7 +35,9 @@ public class SeatBookedService {
         return true;
     }
 
-    public void addSeatBooked(int id1,int id2,int id3,SeatBooked seatBooked) {
+
+    @Transactional
+    public SeatBooked addSeatBooked(int id1,int id2,int id3,SeatBooked seatBooked) {
         Optional<Seat> seat=seatRepo.findById(id1);
         Optional<Booking> booking=bookingRepo.findById(id2);
         Optional<Show>show= showRepo.findById(id3);
@@ -48,6 +51,7 @@ public class SeatBookedService {
         seatBooked.setBooking(booking.get());
         seatBooked.setShow(show.get());
         seatBookedRepo.save(seatBooked);
+        return seatBooked;
     }
 
 

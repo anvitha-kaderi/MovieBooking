@@ -25,7 +25,7 @@ public class CinemaService {
         return cinemaRepo.findAll();
     }
 
-    public void addCinema(int id, Cinema cinema) {
+    public Cinema addCinema(int id, Cinema cinema) {
         Optional<City>city= cityRepo.findById(id);
         if(city.isEmpty())
         {
@@ -33,10 +33,11 @@ public class CinemaService {
         }
         cinema.setCity(city.get());
         cinemaRepo.save(cinema);
+        return cinema;
     }
 
 
-    public void updateCinema(int id, Cinema cinema) {
+    public Cinema updateCinema(int id, Cinema cinema) {
         Optional<Cinema> cinema1= Optional.ofNullable(cinemaRepo.findById(id).orElseThrow(() -> new CinemaNotFoundException(Integer.toString(id))));
        if(cinema1.isEmpty())
         {
@@ -45,6 +46,7 @@ public class CinemaService {
         Cinema updatedcinema=cinema1.get();
         updatedcinema.setName(cinema.getName());
         cinemaRepo.save(updatedcinema);
+        return updatedcinema;
     }
 
 

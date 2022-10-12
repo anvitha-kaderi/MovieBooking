@@ -22,17 +22,17 @@ public class SeatController {
     }
 
     @PostMapping("/hall/{id}/seat")
-    public ResponseEntity<HttpStatus> saveSeats(@PathVariable("id") int id,@RequestBody Seat seat)
+    public ResponseEntity<Seat> saveSeats(@PathVariable("id") int id,@RequestBody Seat seat)
     {
-        service.addSeat(id,seat);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        Seat newseat=service.addSeat(id,seat);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newseat);
     }
 
     @PutMapping("/seat/{id}")
-    public ResponseEntity<HttpStatus> updateSeat(@PathVariable("id") int id , @RequestBody Seat seat)
+    public ResponseEntity<Seat> updateSeat(@PathVariable("id") int id , @RequestBody Seat seat)
     {
-        service.updateSeat(id,seat);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
+        Seat updatedseat=service.updateSeat(id,seat);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedseat);
     }
 
     @DeleteMapping("/seat/{id}")

@@ -26,7 +26,7 @@ public class HallService {
         return hallRepo.findAll();
     }
 
-    public void addHall(int id,Hall hall) {
+    public Hall addHall(int id,Hall hall) {
         Optional<Hall> hall1=hallRepo.findByHallnoAndSize(hall.getHallno(), hall.getSize());
         Optional<Cinema>cinema= cinemaRepo.findById(id);
         if(hall1.isPresent() || cinema.isEmpty())
@@ -35,10 +35,11 @@ public class HallService {
         }
         hall.setCinema(cinema.get());
         hallRepo.save(hall);
+        return hall;
     }
 
 
-    public void updateHall(int id, Hall hall) {
+    public Hall updateHall(int id, Hall hall) {
         Optional<Hall> c= Optional.ofNullable(hallRepo.findById(id).orElseThrow(() -> new HallNotFoundException(Integer.toString(id))));
         if(c.isEmpty())
         {
@@ -48,6 +49,7 @@ public class HallService {
         newhall.setHallno(hall.getHallno());
         newhall.setSize(hall.getSize());
         hallRepo.save(newhall);
+        return newhall;
     }
 
 

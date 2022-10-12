@@ -21,16 +21,16 @@ public class CinemaController {
     }
 
     @PostMapping("/city/{id}/cinema")
-    public ResponseEntity<HttpStatus> saveCinema(@PathVariable("id") int id, @RequestBody Cinema cinema)
+    public ResponseEntity<Cinema> saveCinema(@PathVariable("id") int id, @RequestBody Cinema cinema)
     {
-        service.addCinema(id,cinema);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        Cinema newcinema=service.addCinema(id,cinema);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newcinema);
     }
     @PutMapping("/cinema/{id}")
-    public ResponseEntity<HttpStatus> updateCinema(@PathVariable("id") int id , @RequestBody Cinema cinema)
+    public ResponseEntity<Cinema> updateCinema(@PathVariable("id") int id , @RequestBody Cinema cinema)
     {
-        service.updateCinema(id,cinema);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
+        Cinema updatedcinema=service.updateCinema(id,cinema);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedcinema);
     }
 
     @DeleteMapping("/cinema/{id}")

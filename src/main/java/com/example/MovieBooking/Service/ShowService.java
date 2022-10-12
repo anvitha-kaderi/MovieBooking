@@ -29,7 +29,7 @@ public class ShowService {
         return ShowRepo.findAll();
     }
 
-    public void addShow(int id1, int id2,Show show) {
+    public Show addShow(int id1, int id2,Show show) {
         Optional<Hall>hall= hallRepo.findById(id1);
         Optional<Movie> movie=movierepo.findById(id2);
         if(hall.isEmpty() || movie.isEmpty())
@@ -39,10 +39,11 @@ public class ShowService {
         show.setHall(hall.get());
         show.setMovie(movie.get());
         ShowRepo.save(show);
+        return show;
     }
 
 
-    public void updateShow(int id, Show show) {
+    public Show updateShow(int id, Show show) {
         Optional<Show> c= Optional.ofNullable(ShowRepo.findById(id).orElseThrow(() -> new ShowNotFoundException(Integer.toString(id))));
         if(c.isEmpty())
         {
@@ -53,6 +54,7 @@ public class ShowService {
         newshow.setStart_time(show.getStart_time());
         newshow.setEnd_time(show.getEnd_time());
         ShowRepo.save(newshow);
+        return newshow;
     }
 
 

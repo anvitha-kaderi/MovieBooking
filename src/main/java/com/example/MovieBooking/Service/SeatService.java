@@ -24,7 +24,7 @@ public class SeatService {
         return seatRepo.findAll();
     }
 
-    public void addSeat(int id,Seat seat) {
+    public Seat addSeat(int id,Seat seat) {
        Optional<Hall>hall= hallRepo.findById(id);
 
         if(hall.isEmpty())
@@ -33,10 +33,11 @@ public class SeatService {
         }
         seat.setHall(hall.get());
         seatRepo.save(seat);
+        return seat;
     }
 
 
-    public void updateSeat(int id, Seat seat) {
+    public Seat updateSeat(int id, Seat seat) {
         Optional<Seat> c= Optional.ofNullable(seatRepo.findById(id).orElseThrow(() -> new SeatNotFoundException(Integer.toString(id))));
         if(c.isEmpty())
         {
@@ -46,6 +47,7 @@ public class SeatService {
         newseat.setNo(seat.getNo());
         newseat.setHall(seat.getHall());
         seatRepo.save(newseat);
+        return newseat;
     }
 
 

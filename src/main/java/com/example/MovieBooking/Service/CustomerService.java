@@ -19,17 +19,18 @@ public class CustomerService {
         return customerrepo.findAll();
     }
 
-    public void addCustomer(Customer customer) {
+    public Customer addCustomer(Customer customer) {
         Optional<Customer> customer1=customerrepo.findByNameAndEmailid(customer.getName(),customer.getEmailid());
         if(customer1.isPresent())
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Data already exists");
         }
         customerrepo.save(customer);
+        return customer;
     }
 
 
-    public void updateCustomer(int id, Customer customer) {
+    public Customer updateCustomer(int id, Customer customer) {
         Optional<Customer> customer1= Optional.ofNullable(customerrepo.findById(id).orElseThrow(() -> new CustomerNotFoundException(Integer.toString(id))));
         if(customer1.isEmpty())
         {
@@ -39,6 +40,7 @@ public class CustomerService {
         newcustomer.setName(customer.getName());
         newcustomer.setEmailid(customer.getEmailid());
         customerrepo.save(newcustomer);
+        return newcustomer;
     }
 
 

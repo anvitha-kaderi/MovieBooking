@@ -22,17 +22,17 @@ public class CityController {
     }
 
     @PostMapping("/city")
-    public ResponseEntity<HttpStatus> saveCity(@RequestBody City city)
+    public ResponseEntity<City> saveCity(@RequestBody City city)
     {
-        service.addCity(city);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        City newcity=service.addCity(city);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newcity);
     }
 
     @PutMapping("/city/{id}")
-    public ResponseEntity<HttpStatus> updateCity(@PathVariable("id") int id , @RequestBody City city)
+    public ResponseEntity<City> updateCity(@PathVariable("id") int id , @RequestBody City city)
     {
-        service.updateCity(id,city);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
+        City updatedCity=service.updateCity(id,city);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedCity);
     }
 
     @DeleteMapping("/city/{id}")

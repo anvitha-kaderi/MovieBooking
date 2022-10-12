@@ -22,17 +22,18 @@ public class HallController {
     }
 
     @PostMapping("/cinema/{id}/hall")
-    public ResponseEntity<HttpStatus> saveHall(@PathVariable("id") int id,@RequestBody Hall hall)
+    public ResponseEntity<Hall> saveHall(@PathVariable("id") int id,@RequestBody Hall hall)
     {
-        service.addHall(id,hall);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        Hall newhall=service.addHall(id,hall);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newhall);
     }
 
     @PutMapping("/hall/{id}")
-    public ResponseEntity<HttpStatus> updateHall(@PathVariable("id") int id , @RequestBody Hall hall)
+    public ResponseEntity<Hall> updateHall(@PathVariable("id") int id , @RequestBody Hall hall)
     {
-        service.updateHall(id,hall);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
+        Hall updatedhall=service.updateHall(id,hall);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedhall);
+
     }
 
     @DeleteMapping("/hall/{id}")

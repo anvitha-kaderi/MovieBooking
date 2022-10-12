@@ -19,17 +19,18 @@ public class CityService {
         return cityRepo.findAll();
     }
 
-    public void addCity(City city) {
+    public City addCity(City city) {
         Optional<City> city1=cityRepo.findByCitynameAndState(city.getCityname(),city.getState());
         if(city1.isPresent())
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Data already exists");
         }
         cityRepo.save(city);
+        return  city;
     }
 
 
-    public void updateCity(int id, City city) {
+    public City updateCity(int id, City city) {
         Optional<City> city1= Optional.ofNullable(cityRepo.findById(id).orElseThrow(() -> new CityNotFoundException(Integer.toString(id))));
         if(city1.isEmpty())
         {
@@ -39,6 +40,7 @@ public class CityService {
         newcity.setState(city.getState());
         newcity.setCityname(city.getCityname());
         cityRepo.save(newcity);
+        return newcity;
     }
 
 

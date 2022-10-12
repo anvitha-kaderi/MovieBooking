@@ -39,17 +39,18 @@ public class MovieService {
         }
         return c;
     }
-    public void addMovie(Movie movie) {
+    public Movie addMovie(Movie movie) {
         Optional<Movie> movie1=movieRepo.findByTitleAndLanguageAndGenreAndDuration(movie.getTitle(),movie.getLanguage(),movie.getGenre(),movie.getDuration());
         if(movie1.isPresent())
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Data already exists");
         }
         movieRepo.save(movie);
+        return movie;
     }
 
 
-    public void updateMovie(int id, Movie movie) {
+    public Movie updateMovie(int id, Movie movie) {
         Optional<Movie> movie1= Optional.ofNullable(movieRepo.findById(id).orElseThrow(() -> new MovieNotFoundException(Integer.toString(id))));
         if(movie1.isEmpty())
         {
@@ -61,6 +62,7 @@ public class MovieService {
         newmovie.setGenre(movie.getGenre());
         newmovie.setDuration(movie.getDuration());
         movieRepo.save(newmovie);
+        return newmovie;
     }
 
 

@@ -45,17 +45,17 @@ public class MovieController {
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<HttpStatus> saveMovie(@RequestBody Movie movie)
+    public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie)
     {
-        service.addMovie(movie);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        Movie newmovie=service.addMovie(movie);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newmovie);
     }
 
     @PutMapping("/movie/{id}")
-    public ResponseEntity<HttpStatus> updateMovie(@PathVariable("id") int id , @RequestBody Movie movie)
+    public ResponseEntity<Movie> updateMovie(@PathVariable("id") int id , @RequestBody Movie movie)
     {
-        service.updateMovie(id,movie);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
+        Movie updatedmovie=service.updateMovie(id,movie);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedmovie);
     }
 
     @DeleteMapping("/movie/{id}")

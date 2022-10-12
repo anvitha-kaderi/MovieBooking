@@ -33,7 +33,7 @@ public class BookingService {
 
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void addBooking(int id1,int id2,Booking booking) {
+    public Booking addBooking(int id1,int id2,Booking booking) {
         Optional<Customer> customer= customerRepo.findById(id1);
         Optional<Show> show=showRepo.findById(id2);
         if(customer.isEmpty() || show.isEmpty())
@@ -47,6 +47,7 @@ public class BookingService {
         booking.setShow(show.get());
         paymentRepo.save(payment);
         bookingRepo.save(booking);
+        return booking;
     }
 
 
