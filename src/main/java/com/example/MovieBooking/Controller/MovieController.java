@@ -19,26 +19,26 @@ public class MovieController {
         List<Movie> movies=service.getMovie();
         return ResponseEntity.ok().body(movies);
     }
-    @GetMapping("/title/movie")
+    @GetMapping("/movie")
     public ResponseEntity<List<Movie>> getMovieByTitle(@RequestParam(name="title") String name)
     {
         List<Movie> c=service.fetchingMovie("title", name);
         return ResponseEntity.ok().body(c);
     }
-    @GetMapping("/lang/movie")
-    public ResponseEntity<List<Movie>> getMovieByLanguage(@RequestParam String name)
+    @GetMapping("/title/movie")
+    public ResponseEntity<List<Movie>> getMovieByLanguage(@RequestParam(name = "language") String name)
     {
-        List<Movie> c=service.fetchingMovie("Lang",name);
+        List<Movie> c=service.fetchingMovie("language",name);
         return ResponseEntity.ok().body(c);
     }
     @GetMapping("/genre/movie")
-    public ResponseEntity<List<Movie>> getMovieByGenre(@RequestParam String name)
+    public ResponseEntity<List<Movie>> getMovieByGenre(@RequestParam(name = "genre") String name)
     {
         List<Movie> c=service.fetchingMovie("genre",name);
         return ResponseEntity.ok().body(c);
     }
     @GetMapping("/duration/movie")
-    public ResponseEntity<List<Movie>> getMovieByDuration(@RequestParam String name)
+    public ResponseEntity<List<Movie>> getMovieByDuration(@RequestParam(name="duration") String name)
     {
         List<Movie> c=service.fetchingMovie("duration",name);
         return ResponseEntity.ok().body(c);

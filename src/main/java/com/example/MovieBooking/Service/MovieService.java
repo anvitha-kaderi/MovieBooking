@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -20,24 +21,36 @@ public class MovieService {
     }
 
     public  List<Movie> fetchingMovie(String s, String v){
-        List<Movie> c=new ArrayList<>();
+
         if(s=="title")
         {
-           c= (List<Movie>) movieRepo.findAllByTitle(v).orElseThrow(() -> new MovieNotFoundException("movie not found"));
+           Optional<List<Movie>> movies=movieRepo.findAllByTitle(v);
+           if(movies.isEmpty())
+               throw new MovieNotFoundException("movies not found");
+           return movies.get();
         }
-        else if(s=="lang")
+        else if(s=="language")
         {
-            c= (List<Movie>) movieRepo.findAllByLanguage(v).orElseThrow(()->new MovieNotFoundException("movie not found"));
+            Optional<List<Movie>> movies=movieRepo.findAllByLanguage(v);
+            if(movies.isEmpty())
+                throw new MovieNotFoundException("movies not found");
+            return movies.get();
         }
         else if(s=="genre")
         {
-            c= (List<Movie>) movieRepo.findAllByGenre(v).orElseThrow(()->new MovieNotFoundException("movie not found"));
+            Optional<List<Movie>> movies=movieRepo.findAllByGenre(v);
+            if(movies.isEmpty())
+                throw new MovieNotFoundException("movies not found");
+            return movies.get();
         }
         else
         {
-          c= (List<Movie>) movieRepo.findAllByDuration(v).orElseThrow(()->new MovieNotFoundException("movie not found"));
+          Optional<List<Movie>> movies=movieRepo.findAllByDuration(v);
+            if(movies.isEmpty())
+                throw new MovieNotFoundException("movies not found");
+          return movies.get();
         }
-        return c;
+
     }
     public Movie addMovie(Movie movie) {
         Optional<Movie> movie1=movieRepo.findByTitleAndLanguageAndGenreAndDuration(movie.getTitle(),movie.getLanguage(),movie.getGenre(),movie.getDuration());
