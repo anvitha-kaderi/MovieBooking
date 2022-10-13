@@ -1,8 +1,6 @@
 package com.example.MovieBooking.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,18 +24,26 @@ public class Movie {
     private String language;
     private String genre;
     private String duration;
-
-
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private String releasedate;
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY , orphanRemoval=true)
     @JsonBackReference
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Set<Show> shows;
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+
     @JsonBackReference
-    @JsonIgnore
+    @JsonProperty
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Set<Show> getShows() {
         return shows;
+    }
+
+    @JsonBackReference
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    public void setShows(Set<Show> shows) {
+        this.shows = shows;
     }
 }

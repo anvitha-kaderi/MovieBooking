@@ -27,6 +27,11 @@ public class CinemaService {
 
     public Cinema addCinema(int id, Cinema cinema) {
         Optional<City>city= cityRepo.findById(id);
+        Optional<Cinema> cinema1=cinemaRepo.findByName(cinema.getName());
+        if(cinema1.isPresent())
+        {
+            throw new RuntimeException("cinema already present");
+        }
         if(city.isEmpty())
         {
             throw new CityNotFoundException("city not found ");

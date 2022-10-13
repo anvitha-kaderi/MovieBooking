@@ -1,8 +1,6 @@
 package com.example.MovieBooking.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
@@ -26,28 +24,46 @@ public class Cinema {
     private String name;
 
 
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
     @JsonBackReference
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Set<Hall> halls;
 
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id")
+    @JsonManagedReference
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private City city;
+
+    @JsonBackReference
+    @JsonProperty
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Set<Hall> getHalls() {
         return halls;
     }
 
 
     @JsonManagedReference
-    @JsonIgnore
+    @JsonProperty
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public City getCity() {
         return city;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "city_id")
+    @JsonIgnore
     @JsonManagedReference
-   @JsonIgnore
-    private City city;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    @JsonBackReference
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    public void setHalls(Set<Hall> halls) {
+        this.halls = halls;
+    }
 
 }

@@ -27,10 +27,10 @@ public class PaymentController {
         return ResponseEntity.ok().body(payments);
     }
 
-//    @DeleteMapping("/payment/{id}")
-//    public ResponseEntity<HttpStatus> clearpayment(@PathVariable("id") int id)
-//    {
-//        paymentService.deletepayment();
-//        return ResponseEntity.ok().body(null);
-//    }
+    @DeleteMapping("/payment/{id}")
+    public ResponseEntity<HttpStatus> clearpayment(@PathVariable("id") int id)
+    {
+        paymentService.deletepayment(id);
+        return ResponseEntity.ok().body(null);
+    }
 }

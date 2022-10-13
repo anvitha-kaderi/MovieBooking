@@ -1,9 +1,6 @@
 package com.example.MovieBooking.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
@@ -27,12 +24,14 @@ public class Show {
     @JoinColumn(name="movie_mid")
     @JsonManagedReference
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="hall_hid")
     @JsonManagedReference
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Hall hall;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
@@ -46,39 +45,73 @@ public class Show {
 
     private int cost;
 
-    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL,fetch = FetchType.LAZY , orphanRemoval=true)
     @JsonBackReference
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Set<SeatBooked> bookedSeats;
 
 
-    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch = FetchType.LAZY , orphanRemoval=true)
     @JsonBackReference
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Set<Booking> bookings;
 
 
+
+
+
     @JsonBackReference
-    @JsonIgnore
+    @JsonProperty
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Set<Booking> getBookings() {
         return bookings;
     }
 
     @JsonBackReference
-    @JsonIgnore
+    @JsonProperty
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Set<SeatBooked> getBookedSeats() {
         return bookedSeats;
     }
 
     @JsonManagedReference
-    @JsonIgnore
+    @JsonProperty
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Movie getMovie() {
         return movie;
     }
 
     @JsonManagedReference
-    @JsonIgnore
+    @JsonProperty
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Hall getHall() {
         return hall;
+    }
+
+    @JsonManagedReference
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+    @JsonManagedReference
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    public void setHall(Hall hall) {
+        this.hall = hall;
+    }
+    @JsonBackReference
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    public void setBookedSeats(Set<SeatBooked> bookedSeats) {
+        this.bookedSeats = bookedSeats;
+    }
+    @JsonBackReference
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    public void setBookings(Set<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

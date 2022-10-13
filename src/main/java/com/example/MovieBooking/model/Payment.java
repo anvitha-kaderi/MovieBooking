@@ -1,9 +1,7 @@
 package com.example.MovieBooking.model;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,21 +16,30 @@ import java.util.UUID;
 @Table(name = "payment")
 public class Payment{
     @Id
-    @GeneratedValue(generator= "uuid2")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="pid")
-    private UUID id;
+    private int id;
 
+    @JsonFormat(pattern="HH:mm:ss")
     private String paymentTime;
 
     @ManyToOne
     @JoinColumn(name = "customer_uid")
     @JsonIgnore
     @JsonManagedReference
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Customer customer;
 
-    @JsonIgnore
+    @JsonProperty
     @JsonManagedReference
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Customer getCustomer() {
         return customer;
+    }
+    @JsonIgnore
+    @JsonManagedReference
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
