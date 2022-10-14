@@ -6,9 +6,11 @@ import com.example.MovieBooking.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,9 @@ public class SeatBookedService {
     @Autowired
     public SeatBookedRepo seatBookedRepo;
 
+    @Autowired
+    public PaymentRepo paymentRepo;
+
     public List<SeatBooked> getSeatBooked() {
         return seatBookedRepo.findAll();
     }
@@ -36,7 +41,7 @@ public class SeatBookedService {
     }
 
 
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public SeatBooked addSeatBooked(int id1,int id2,int id3,SeatBooked seatBooked) {
         Optional<Seat> seat=seatRepo.findById(id1);
         Optional<Booking> booking=bookingRepo.findById(id2);
@@ -47,9 +52,14 @@ public class SeatBookedService {
         }
         if(!checkseat(id1))
             throw new ResponseStatusException(HttpStatus.ALREADY_REPORTED,"Seat already booked");
+        Payment payment=new Payment();
+        Customer customer=booking.get().getCustomer();
+        payment.setCustomer(customer);
+        payment.setPaymentTime(String.valueOf(LocalTime.now()));
         seatBooked.setSeat(seat.get());
         seatBooked.setBooking(booking.get());
         seatBooked.setShow(show.get());
+        paymentRepo.save(payment);
         seatBookedRepo.save(seatBooked);
         return seatBooked;
     }

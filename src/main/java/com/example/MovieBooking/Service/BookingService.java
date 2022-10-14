@@ -40,12 +40,8 @@ public class BookingService {
         {
             throw new ResponseStatusException(HttpStatus.CONFLICT," Error ");
         }
-        Payment payment=new Payment();
-        payment.setCustomer(customer.get());
-        payment.setPaymentTime(String.valueOf(LocalTime.now()));
         booking.setCustomer(customer.get());
         booking.setShow(show.get());
-        paymentRepo.save(payment);
         bookingRepo.save(booking);
         return booking;
     }
