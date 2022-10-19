@@ -22,3 +22,17 @@
 //
 //        }
 //    }
+
+//int numberOfThreads = 10;
+//        ExecutorService service = Executors.newFixedThreadPool(10);
+//        CountDownLatch latch = new CountDownLatch(numberOfThreads);
+//
+//
+//        for (int i = 0; i < numberOfThreads; i++) {
+//        service.execute(() -> {
+//        counter.increment();
+//        latch.countDown();
+//        });
+//        }
+//        latch.await();
+//        assertEquals(numberOfThreads, counter.getCount());
