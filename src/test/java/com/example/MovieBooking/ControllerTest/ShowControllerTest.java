@@ -42,9 +42,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers= ShowController.class)
-@ActiveProfiles("staging")
-//@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
-//@SpringBootTest(classes = MovieBookingApplication.class)
+
 public class ShowControllerTest {
 
     @Autowired
@@ -109,11 +107,11 @@ public class ShowControllerTest {
     @Test
     public void deleteShowtesting() throws Exception
     {
-        Show Show1=new Show();
-        Show1.setCost(400);
-        Show1.setId(1);
-        doNothing().when(Service).deleteShow(Show1.getId());
-        mockMvc.perform(delete("/show/"+Integer.toString(Show1.getId())).contentType("application/json"))
+        Show show=new Show();
+        show.setCost(400);
+        show.setId(1);
+        doNothing().when(Service).deleteShow(show.getId());
+        mockMvc.perform(delete("/show/"+Integer.toString(show.getId())).contentType("application/json"))
                 .andExpect(status().isAccepted());
 
     }

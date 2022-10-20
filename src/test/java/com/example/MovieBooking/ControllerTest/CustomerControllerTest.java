@@ -39,9 +39,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers= CustomerController.class)
-@ActiveProfiles("staging")
-//@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
-//@SpringBootTest(classes = MovieBookingApplication.class)
+
 public class CustomerControllerTest {
 
     @Autowired
@@ -84,27 +82,27 @@ public class CustomerControllerTest {
 
     @Test
     public void putCustomertesting() throws Exception {
-        Customer Customer1=new Customer();
-        Customer1.setId(1);
-        Customer1.setName("mglore");
-        Customer1.setEmailid("kar@gmail.com");
-        given(Service.updateCustomer(1,Customer1)).willReturn(Customer1);
-        mockMvc.perform(put("/customer/"+Integer.toString(Customer1.getId())).contentType("application/json").content(objectMapper.writeValueAsString(Customer1)))
+        Customer customer=new Customer();
+        customer.setId(1);
+        customer.setName("mglore");
+        customer.setEmailid("kar@gmail.com");
+        given(Service.updateCustomer(1,customer)).willReturn(customer);
+        mockMvc.perform(put("/customer/"+Integer.toString(customer.getId())).contentType("application/json").content(objectMapper.writeValueAsString(customer)))
                 .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$.name",is(Customer1.getName())))
-                .andExpect(jsonPath("$.emailid",is(Customer1.getEmailid())));
+                .andExpect(jsonPath("$.name",is(customer.getName())))
+                .andExpect(jsonPath("$.emailid",is(customer.getEmailid())));
 
     }
 
     @Test
     public void deleteCustomertesting() throws Exception
     {
-        Customer Customer1=new Customer();
-        Customer1.setName("mglore");
-        Customer1.setEmailid("karnataka");
-        Customer1.setId(1);
-        doNothing().when(Service).deleteCustomer(Customer1.getId());
-        mockMvc.perform(delete("/customer/"+Integer.toString(Customer1.getId())).contentType("application/json"))
+        Customer customer=new Customer();
+        customer.setName("mglore");
+        customer.setEmailid("karnataka");
+        customer.setId(1);
+        doNothing().when(Service).deleteCustomer(customer.getId());
+        mockMvc.perform(delete("/customer/"+Integer.toString(customer.getId())).contentType("application/json"))
                 .andExpect(status().isAccepted());
 
     }

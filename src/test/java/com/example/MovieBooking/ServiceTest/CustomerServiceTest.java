@@ -38,10 +38,6 @@ public class CustomerServiceTest {
     @InjectMocks
     private CustomerService customerService;
 
-//    @Before
-//    public void setup() {
-//        MockitoAnnotations.initMocks(this);
-//    }
 
     @Test
     public void NewCustomerTesting()
@@ -49,7 +45,6 @@ public class CustomerServiceTest {
         Customer customer=new Customer();
         customer.setName("Anvitha");
         customer.setEmailid("Karnataka@gmail.com");
-        //when(CustomerRepo.save(ArgumentMatchers.any(Customer.class))).thenReturn(Customer);
         given(customerRepo.save(ArgumentMatchers.any(Customer.class))).willReturn(customer);
         Customer newCustomer=customerService.addCustomer(customer);
         assertThat(newCustomer).isSameAs(customer);
@@ -78,11 +73,11 @@ public class CustomerServiceTest {
     @Test
     public void GetCustomerTesting()
     {
-        List<Customer> CustomerList= new ArrayList<>();
-        CustomerList.add(new Customer());
-        given(customerRepo.findAll()).willReturn(CustomerList);
+        List<Customer> customerList= new ArrayList<>();
+        customerList.add(new Customer());
+        given(customerRepo.findAll()).willReturn(customerList);
         List<Customer> expected=customerService.getCustomer();
-        assertEquals(CustomerList,expected);
+        assertEquals(customerList,expected);
         verify(customerRepo).findAll();
     }
 

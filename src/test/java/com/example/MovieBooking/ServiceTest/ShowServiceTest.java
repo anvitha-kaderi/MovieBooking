@@ -17,7 +17,6 @@ import org.mockito.*;
 
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,42 +34,43 @@ import static org.mockito.Mockito.when;
 public class ShowServiceTest {
 
     @Mock
-    private ShowRepo ShowRepo;
+    private ShowRepo showRepo;
 
     @Mock
-    private MovieRepo MovieRepo;
+    private MovieRepo movieRepo;
 
     @Mock
-    private HallRepo HallRepo;
+    private HallRepo hallRepo;
 
     @InjectMocks
-    private ShowService ShowService;
+    private ShowService showService;
 
     
 
     @Test
     public void NewShowTesting()
     {
-        Show Show=new Show();
-        Show.setCost(300);
-        Show.setStart_time("02:02:00");
-        Show.setEnd_time("03:03:30");
-        Movie Movie=new Movie();
-        Movie.setId(2);
-        Movie.setTitle("RRR");
-        Movie.setGenre("horror");
-        Show.setMovie(Movie);
+        Show show=new Show();
+        show.setCost(300);
+        show.setStart_time("02:02:00");
+        show.setEnd_time("03:03:30");
+        Movie movie=new Movie();
+        movie.setId(2);
+        movie.setTitle("RRR");
+        movie.setGenre("horror");
+        movie.setLanguage("telugu");
+        show.setMovie(movie);
         Hall hall=new Hall();
         hall.setSize(30);
         hall.setHallno(5);
         hall.setId(4);
-        Show.setHall(hall);
-        given(ShowRepo.save(ArgumentMatchers.any(Show.class))).willReturn(Show);
-        given(MovieRepo.findById(2)).willReturn(Optional.of(Movie));
-        given(HallRepo.findById(4)).willReturn(Optional.of(hall));
-        Show newShow=ShowService.addShow(4,2,Show);
-        assertThat(newShow).isSameAs(Show);
-        verify(ShowRepo).save(Show);
+        show.setHall(hall);
+        given(showRepo.save(ArgumentMatchers.any(Show.class))).willReturn(show);
+        given(movieRepo.findById(2)).willReturn(Optional.of(movie));
+        given(hallRepo.findById(4)).willReturn(Optional.of(hall));
+        Show newShow= showService.addShow(4,2,show);
+        assertThat(newShow).isSameAs(show);
+        verify(showRepo).save(show);
 
     }
 
@@ -83,10 +83,10 @@ public class ShowServiceTest {
         Show newShow=new Show();
         newShow.setId(1);
         newShow.setCost(300);
-        given(ShowRepo.findById(oldShow.getId())).willReturn(Optional.of(oldShow));
-        ShowService.updateShow(oldShow.getId(),newShow);
-        verify(ShowRepo).save(newShow);
-        verify(ShowRepo).findById(oldShow.getId());
+        given(showRepo.findById(oldShow.getId())).willReturn(Optional.of(oldShow));
+        showService.updateShow(oldShow.getId(),newShow);
+        verify(showRepo).save(newShow);
+        verify(showRepo).findById(oldShow.getId());
     }
 
 
@@ -95,21 +95,21 @@ public class ShowServiceTest {
     {
         List<Show> ShowList= new ArrayList<>();
         ShowList.add(new Show());
-        given(ShowRepo.findAll()).willReturn(ShowList);
-        List<Show> expected=ShowService.getShow();
+        given(showRepo.findAll()).willReturn(ShowList);
+        List<Show> expected= showService.getShow();
         assertEquals(ShowList,expected);
-        verify(ShowRepo).findAll();
+        verify(showRepo).findAll();
     }
 
     @Test
     public void DeleteShowTesting()
     {
-        Show Show=new Show();
-        Show.setId(1);
-        Show.setCost(300);
-        when(ShowRepo.findById(Show.getId())).thenReturn(Optional.of(Show));
-        ShowService.deleteShow(Show.getId());
-        verify(ShowRepo).deleteById(Show.getId());
+        Show show=new Show();
+        show.setId(1);
+        show.setCost(300);
+        when(showRepo.findById(show.getId())).thenReturn(Optional.of(show));
+        showService.deleteShow(show.getId());
+        verify(showRepo).deleteById(show.getId());
     }
 
 }

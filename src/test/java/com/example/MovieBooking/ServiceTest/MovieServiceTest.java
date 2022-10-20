@@ -4,7 +4,6 @@ package com.example.MovieBooking.ServiceTest;
 import com.example.MovieBooking.Repository.MovieRepo;
 import com.example.MovieBooking.Service.MovieService;
 import com.example.MovieBooking.model.Movie;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +13,6 @@ import org.mockito.*;
 
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,24 +30,26 @@ import static org.mockito.Mockito.when;
 public class MovieServiceTest {
 
     @Mock
-    private MovieRepo MovieRepo;
+    private MovieRepo movieRepo;
 
 
     @InjectMocks
-    private MovieService MovieService;
+    private MovieService movieService;
 
     @Test
     public void NewMovieTesting()
     {
-        Movie Movie=new Movie();
-        Movie.setTitle("rrr");
-        Movie.setDuration("02:02:09");
-        Movie.setGenre("horror");
-        //when(MovieRepo.save(ArgumentMatchers.any(Movie.class))).thenReturn(Movie);
-        given(MovieRepo.save(ArgumentMatchers.any(Movie.class))).willReturn(Movie);
-        Movie newMovie=MovieService.addMovie(Movie);
-        assertThat(newMovie).isSameAs(Movie);
-        verify(MovieRepo).save(Movie);
+        Movie movie=new Movie();
+        movie.setTitle("rrr");
+        movie.setDuration("02:02:09");
+        movie.setGenre("horror");
+        movie.setLanguage("telugu");
+        movie.setReleasedate("02-02-2022");
+        //when(MovieRepo.save(ArgumentMatchers.any(movie.class))).thenReturn(movie);
+        given(movieRepo.save(ArgumentMatchers.any(Movie.class))).willReturn(movie);
+        Movie newMovie= movieService.addMovie(movie);
+        assertThat(newMovie).isSameAs(movie);
+        verify(movieRepo).save(movie);
 
     }
 
@@ -60,14 +60,18 @@ public class MovieServiceTest {
         oldMovie.setId(1);
         oldMovie.setTitle("rrr");
         oldMovie.setGenre("horror");
+        oldMovie.setLanguage("telugu");
+        oldMovie.setReleasedate("02-02-2022");
         Movie newMovie=new Movie();
         newMovie.setId(1);
         newMovie.setTitle("RRR");
         newMovie.setGenre("thriller");
-        given(MovieRepo.findById(oldMovie.getId())).willReturn(Optional.of(oldMovie));
-        MovieService.updateMovie(oldMovie.getId(),newMovie);
-        verify(MovieRepo).save(newMovie);
-        verify(MovieRepo).findById(oldMovie.getId());
+        newMovie.setLanguage("telugu");
+        newMovie.setReleasedate("02-02-2022");
+        given(movieRepo.findById(oldMovie.getId())).willReturn(Optional.of(oldMovie));
+        movieService.updateMovie(oldMovie.getId(),newMovie);
+        verify(movieRepo).save(newMovie);
+        verify(movieRepo).findById(oldMovie.getId());
     }
 
 
@@ -76,22 +80,24 @@ public class MovieServiceTest {
     {
         List<Movie> MovieList= new ArrayList<>();
         MovieList.add(new Movie());
-        given(MovieRepo.findAll()).willReturn(MovieList);
-        List<Movie> expected=MovieService.getMovie();
+        given(movieRepo.findAll()).willReturn(MovieList);
+        List<Movie> expected= movieService.getMovie();
         assertEquals(MovieList,expected);
-        verify(MovieRepo).findAll();
+        verify(movieRepo).findAll();
     }
 
     @Test
     public void DeleteMovieTesting()
     {
-        Movie Movie=new Movie();
-        Movie.setId(1);
-        Movie.setTitle("rrr");
-        Movie.setGenre("thriller");
-        when(MovieRepo.findById(Movie.getId())).thenReturn(Optional.of(Movie));
-        MovieService.deleteMovie(Movie.getId());
-        verify(MovieRepo).deleteById(Movie.getId());
+        Movie movie=new Movie();
+        movie.setId(1);
+        movie.setTitle("rrr");
+        movie.setGenre("thriller");
+        movie.setLanguage("telugu");
+        movie.setReleasedate("02-02-2022");
+        when(movieRepo.findById(movie.getId())).thenReturn(Optional.of(movie));
+        movieService.deleteMovie(movie.getId());
+        verify(movieRepo).deleteById(movie.getId());
     }
 
 }

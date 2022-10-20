@@ -4,7 +4,6 @@ package com.example.MovieBooking.ServiceTest;
 import com.example.MovieBooking.Repository.PaymentRepo;
 import com.example.MovieBooking.Service.PaymentService;
 import com.example.MovieBooking.model.Payment;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +13,6 @@ import org.mockito.*;
 
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,40 +30,32 @@ import static org.mockito.Mockito.when;
 public class PaymentServiceTest {
 
     @Mock
-    private PaymentRepo PaymentRepo;
+    private PaymentRepo paymentRepo;
 
 
     @InjectMocks
-    private PaymentService PaymentService;
-
-//    @Before
-//    public void setup() {
-//        MockitoAnnotations.initMocks(this);
-//    }
-
-
-
+    private PaymentService paymentService;
 
     @Test
     public void GetPaymentTesting()
     {
         List<Payment> PaymentList= new ArrayList<>();
         PaymentList.add(new Payment());
-        given(PaymentRepo.findAll()).willReturn(PaymentList);
-        List<Payment> expected=PaymentService.getpayment();
+        given(paymentRepo.findAll()).willReturn(PaymentList);
+        List<Payment> expected= paymentService.getpayment();
         assertEquals(PaymentList,expected);
-        verify(PaymentRepo).findAll();
+        verify(paymentRepo).findAll();
     }
 
     @Test
     public void DeletePaymentTesting()
     {
-        Payment Payment=new Payment();
-        Payment.setId(1);
-        Payment.setPaymentTime("02:02:02");
-        when(PaymentRepo.findById(Payment.getId())).thenReturn(Optional.of(Payment));
-        PaymentService.deletepayment(Payment.getId());
-        verify(PaymentRepo).deleteById(Payment.getId());
+        Payment payment=new Payment();
+        payment.setId(1);
+        payment.setPaymentTime("02:02:02");
+        when(paymentRepo.findById(payment.getId())).thenReturn(Optional.of(payment));
+        paymentService.deletepayment(payment.getId());
+        verify(paymentRepo).deleteById(payment.getId());
     }
 
 }

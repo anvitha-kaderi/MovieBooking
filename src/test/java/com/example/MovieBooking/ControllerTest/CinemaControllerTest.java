@@ -40,9 +40,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers= CinemaController.class)
-@ActiveProfiles("staging")
-//@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
-//@SpringBootTest(classes = MovieBookingApplication.class)
+
 public class CinemaControllerTest {
 
     @Autowired
@@ -67,16 +65,16 @@ public class CinemaControllerTest {
         ResultActions response=mockMvc.perform(post("/city/"+Integer.toString(1)+"/cinema").contentType("application/json").content(objectMapper.writeValueAsString(cinema)));
         response.andDo(print())
                 .andExpect(status().isCreated());
-              //  .andExpect(jsonPath("$.name", is(cinema.getName())));
+
 
     }
 
     @Test
     public void getCinematest() throws Exception{
-        Cinema Cinema1=new Cinema();
-        Cinema1.setName("mangalore");
+        Cinema cinema=new Cinema();
+        cinema.setName("mangalore");
         List<Cinema> CinemaList= new ArrayList<>();
-        CinemaList.add(Cinema1);
+        CinemaList.add(cinema);
         given(Service.getCinema()).willReturn(CinemaList);
         ResultActions response=mockMvc.perform(get("/cinemas"));
         response.andDo(print())
@@ -87,24 +85,24 @@ public class CinemaControllerTest {
 
     @Test
     public void putCinematesting() throws Exception {
-        Cinema Cinema1=new Cinema();
-        Cinema1.setId(1);
-        Cinema1.setName("mglore");
-        given(Service.updateCinema(1,Cinema1)).willReturn(Cinema1);
-        mockMvc.perform(put("/cinema/"+Integer.toString(Cinema1.getId())).contentType("application/json").content(objectMapper.writeValueAsString(Cinema1)))
+        Cinema cinema=new Cinema();
+        cinema.setId(1);
+        cinema.setName("mglore");
+        given(Service.updateCinema(1,cinema)).willReturn(cinema);
+        mockMvc.perform(put("/cinema/"+Integer.toString(cinema.getId())).contentType("application/json").content(objectMapper.writeValueAsString(cinema)))
                 .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$.name",is(Cinema1.getName())));
+                .andExpect(jsonPath("$.name",is(cinema.getName())));
 
     }
 
     @Test
     public void deleteCinematesting() throws Exception
     {
-        Cinema Cinema1=new Cinema();
-        Cinema1.setName("mglore");
-        Cinema1.setId(1);
-        doNothing().when(Service).deleteCinema(Cinema1.getId());
-        mockMvc.perform(delete("/cinema/"+Integer.toString(Cinema1.getId())).contentType("application/json"))
+        Cinema cinema=new Cinema();
+        cinema.setName("mglore");
+        cinema.setId(1);
+        doNothing().when(Service).deleteCinema(cinema.getId());
+        mockMvc.perform(delete("/cinema/"+Integer.toString(cinema.getId())).contentType("application/json"))
                 .andExpect(status().isAccepted());
 
     }

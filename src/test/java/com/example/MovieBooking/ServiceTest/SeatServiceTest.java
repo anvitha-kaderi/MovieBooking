@@ -32,13 +32,13 @@ import static org.mockito.Mockito.when;
 public class SeatServiceTest {
 
     @Mock
-    private SeatRepo SeatRepo;
+    private SeatRepo seatRepo;
 
     @Mock
-    private HallRepo HallRepo;
+    private HallRepo hallRepo;
 
     @InjectMocks
-    private SeatService SeatService;
+    private SeatService seatService;
 
 //    @Before
 //    public void setup() {
@@ -48,18 +48,18 @@ public class SeatServiceTest {
     @Test
     public void NewSeatTesting()
     {
-        Seat Seat=new Seat();
-        Seat.setNo(30);
+        Seat seat=new Seat();
+        seat.setNo(30);
         Hall Hall=new Hall();
         Hall.setId(2);
         Hall.setHallno(5);
         Hall.setSize(20);
-        Seat.setHall(Hall);
-        given(SeatRepo.save(ArgumentMatchers.any(Seat.class))).willReturn(Seat);
-        given(HallRepo.findById(2)).willReturn(Optional.of(Hall));
-        Seat newSeat=SeatService.addSeat(2,Seat);
-        assertThat(newSeat).isSameAs(Seat);
-        verify(SeatRepo).save(Seat);
+        seat.setHall(Hall);
+        given(seatRepo.save(ArgumentMatchers.any(Seat.class))).willReturn(seat);
+        given(hallRepo.findById(2)).willReturn(Optional.of(Hall));
+        Seat newSeat= seatService.addSeat(2,seat);
+        assertThat(newSeat).isSameAs(seat);
+        verify(seatRepo).save(seat);
 
     }
 
@@ -72,10 +72,10 @@ public class SeatServiceTest {
         Seat newSeat=new Seat();
         newSeat.setId(1);
         newSeat.setNo(2);
-        given(SeatRepo.findById(oldSeat.getId())).willReturn(Optional.of(oldSeat));
-        SeatService.updateSeat(oldSeat.getId(),newSeat);
-        verify(SeatRepo).save(newSeat);
-        verify(SeatRepo).findById(oldSeat.getId());
+        given(seatRepo.findById(oldSeat.getId())).willReturn(Optional.of(oldSeat));
+        seatService.updateSeat(oldSeat.getId(),newSeat);
+        verify(seatRepo).save(newSeat);
+        verify(seatRepo).findById(oldSeat.getId());
     }
 
 
@@ -84,21 +84,21 @@ public class SeatServiceTest {
     {
         List<Seat> SeatList= new ArrayList<>();
         SeatList.add(new Seat());
-        given(SeatRepo.findAll()).willReturn(SeatList);
-        List<Seat> expected=SeatService.getSeat();
+        given(seatRepo.findAll()).willReturn(SeatList);
+        List<Seat> expected= seatService.getSeat();
         assertEquals(SeatList,expected);
-        verify(SeatRepo).findAll();
+        verify(seatRepo).findAll();
     }
 
     @Test
     public void DeleteSeatTesting()
     {
-        Seat Seat=new Seat();
-        Seat.setId(1);
-        Seat.setNo(2);
-        when(SeatRepo.findById(Seat.getId())).thenReturn(Optional.of(Seat));
-        SeatService.deleteSeat(Seat.getId());
-        verify(SeatRepo).deleteById(Seat.getId());
+        Seat seat=new Seat();
+        seat.setId(1);
+        seat.setNo(2);
+        when(seatRepo.findById(seat.getId())).thenReturn(Optional.of(seat));
+        seatService.deleteSeat(seat.getId());
+        verify(seatRepo).deleteById(seat.getId());
     }
 
 }

@@ -39,9 +39,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers= MovieController.class)
-@ActiveProfiles("staging")
-//@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
-//@SpringBootTest(classes = MovieBookingApplication.class)
 public class MovieControllerTest {
 
     @Autowired

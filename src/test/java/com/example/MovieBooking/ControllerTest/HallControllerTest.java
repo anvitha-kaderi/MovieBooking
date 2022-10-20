@@ -40,9 +40,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers= HallController.class)
-@ActiveProfiles("staging")
-//@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
-//@SpringBootTest(classes = MovieBookingApplication.class)
+
 public class HallControllerTest {
 
     @Autowired
@@ -102,12 +100,12 @@ public class HallControllerTest {
     @Test
     public void deleteHalltesting() throws Exception
     {
-        Hall Hall1=new Hall();
-        Hall1.setHallno(2);
-        Hall1.setSize(200);
-        Hall1.setId(1);
-        doNothing().when(Service).deleteHall(Hall1.getId());
-        mockMvc.perform(delete("/hall/"+Integer.toString(Hall1.getId())).contentType("application/json"))
+        Hall hall=new Hall();
+        hall.setHallno(2);
+        hall.setSize(200);
+        hall.setId(1);
+        doNothing().when(Service).deleteHall(hall.getId());
+        mockMvc.perform(delete("/hall/"+Integer.toString(hall.getId())).contentType("application/json"))
                 .andExpect(status().isAccepted());
 
     }

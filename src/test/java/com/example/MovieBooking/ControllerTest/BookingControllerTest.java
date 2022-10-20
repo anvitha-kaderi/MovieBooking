@@ -42,9 +42,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers= BookingController.class)
-@ActiveProfiles("staging")
-//@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
-//@SpringBootTest(classes = MovieBookingApplication.class)
+
 public class BookingControllerTest {
 
     @Autowired
@@ -62,6 +60,8 @@ public class BookingControllerTest {
         booking.setBookingTime("02:02:02");
         Customer customer=new Customer();
         customer.setId(2);
+        customer.setName("anvi");
+        customer.setEmailid("k@gmail.com");
         booking.setCustomer(customer);
         Show show=new Show();
         show.setId(3);
@@ -77,9 +77,9 @@ public class BookingControllerTest {
 
     @Test
     public void getBookingtest() throws Exception{
-        Booking Booking1=new Booking();
+        Booking booking1=new Booking();
         List<Booking> BookingList= new ArrayList<>();
-        BookingList.add(Booking1);
+        BookingList.add(booking1);
         given(Service.getBooking()).willReturn(BookingList);
         ResultActions response=mockMvc.perform(get("/bookings"));
         response.andDo(print())
@@ -92,10 +92,10 @@ public class BookingControllerTest {
     @Test
     public void deleteBookingtesting() throws Exception
     {
-        Booking Booking1=new Booking();
-        Booking1.setId(1);
-        doNothing().when(Service).deleteBooking(Booking1.getId());
-        mockMvc.perform(delete("/book/"+Integer.toString(Booking1.getId())).contentType("application/json"))
+        Booking booking1=new Booking();
+        booking1.setId(1);
+        doNothing().when(Service).deleteBooking(booking1.getId());
+        mockMvc.perform(delete("/book/"+Integer.toString(booking1.getId())).contentType("application/json"))
                 .andExpect(status().isAccepted());
 
     }

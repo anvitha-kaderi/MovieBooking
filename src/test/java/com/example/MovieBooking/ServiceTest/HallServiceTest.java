@@ -15,7 +15,6 @@ import org.mockito.*;
 
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,31 +32,31 @@ import static org.mockito.Mockito.when;
 public class HallServiceTest {
 
     @Mock
-    private HallRepo HallRepo;
+    private HallRepo hallRepo;
 
     @Mock
-    private CinemaRepo CinemaRepo;
+    private CinemaRepo cinemaRepo;
 
     @InjectMocks
-    private HallService HallService;
+    private HallService hallService;
 
 
     @Test
     public void NewHallTesting()
     {
-        Hall Hall=new Hall();
-        Hall.setHallno(1);
-        Hall.setSize(300);
-        Cinema Cinema=new Cinema();
-        Cinema.setId(2);
-        Cinema.setName("rrr");
-        Hall.setCinema(Cinema);
-        //when(HallRepo.save(ArgumentMatchers.any(Hall.class))).thenReturn(Hall);
-        given(HallRepo.save(ArgumentMatchers.any(Hall.class))).willReturn(Hall);
-        given(CinemaRepo.findById(2)).willReturn(Optional.of(Cinema));
-        Hall newHall=HallService.addHall(2,Hall);
-        assertThat(newHall).isSameAs(Hall);
-        verify(HallRepo).save(Hall);
+        Hall hall=new Hall();
+        hall.setHallno(1);
+        hall.setSize(300);
+        Cinema cinema=new Cinema();
+        cinema.setId(2);
+        cinema.setName("rrr");
+        hall.setCinema(cinema);
+        //when(HallRepo.save(ArgumentMatchers.any(hall.class))).thenReturn(hall);
+        given(hallRepo.save(ArgumentMatchers.any(Hall.class))).willReturn(hall);
+        given(cinemaRepo.findById(2)).willReturn(Optional.of(cinema));
+        Hall newHall= hallService.addHall(2,hall);
+        assertThat(newHall).isSameAs(hall);
+        verify(hallRepo).save(hall);
 
     }
 
@@ -72,34 +71,34 @@ public class HallServiceTest {
         newHall.setId(1);
         newHall.setSize(200);
         newHall.setHallno(1);
-        given(HallRepo.findById(oldHall.getId())).willReturn(Optional.of(oldHall));
-        HallService.updateHall(oldHall.getId(),newHall);
-        verify(HallRepo).save(newHall);
-        verify(HallRepo).findById(oldHall.getId());
+        given(hallRepo.findById(oldHall.getId())).willReturn(Optional.of(oldHall));
+        hallService.updateHall(oldHall.getId(),newHall);
+        verify(hallRepo).save(newHall);
+        verify(hallRepo).findById(oldHall.getId());
     }
 
 
     @Test
     public void GetHallTesting()
     {
-        List<Hall> HallList= new ArrayList<>();
-        HallList.add(new Hall());
-        given(HallRepo.findAll()).willReturn(HallList);
-        List<Hall> expected=HallService.getHall();
-        assertEquals(HallList,expected);
-        verify(HallRepo).findAll();
+        List<Hall> halls= new ArrayList<>();
+        halls.add(new Hall());
+        given(hallRepo.findAll()).willReturn(halls);
+        List<Hall> expected= hallService.getHall();
+        assertEquals(halls,expected);
+        verify(hallRepo).findAll();
     }
 
     @Test
     public void DeleteHallTesting()
     {
-        Hall Hall=new Hall();
-        Hall.setId(1);
-        Hall.setSize(1);
-        Hall.setHallno(200);
-        when(HallRepo.findById(Hall.getId())).thenReturn(Optional.of(Hall));
-        HallService.deleteHall(Hall.getId());
-        verify(HallRepo).deleteById(Hall.getId());
+        Hall hall=new Hall();
+        hall.setId(1);
+        hall.setSize(1);
+        hall.setHallno(200);
+        when(hallRepo.findById(hall.getId())).thenReturn(Optional.of(hall));
+        hallService.deleteHall(hall.getId());
+        verify(hallRepo).deleteById(hall.getId());
     }
 
 }

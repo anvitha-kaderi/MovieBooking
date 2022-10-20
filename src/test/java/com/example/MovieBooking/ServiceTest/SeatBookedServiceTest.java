@@ -4,8 +4,6 @@ package com.example.MovieBooking.ServiceTest;
 import com.example.MovieBooking.Repository.*;
 import com.example.MovieBooking.Service.SeatBookedService;
 import com.example.MovieBooking.model.*;
-import org.checkerframework.checker.units.qual.C;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +13,6 @@ import org.mockito.*;
 
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +30,10 @@ import static org.mockito.Mockito.when;
 public class SeatBookedServiceTest {
 
     @Mock
-    private SeatBookedRepo SeatBookedRepo;
+    private SeatBookedRepo seatBookedRepo;
 
     @Mock
-    private BookingRepo BookingRepo;
+    private BookingRepo bookingRepo;
 
     @Mock
     private SeatRepo seatRepo;
@@ -48,7 +45,7 @@ public class SeatBookedServiceTest {
     private PaymentRepo paymentRepo;
 
     @InjectMocks
-    private SeatBookedService SeatBookedService;
+    private SeatBookedService seatBookedService;
 
 //    @Before
 //    public void setup() {
@@ -58,29 +55,29 @@ public class SeatBookedServiceTest {
     @Test
     public void NewSeatBookedTesting()
     {
-        SeatBooked SeatBooked=new SeatBooked();
+        SeatBooked seatBooked=new SeatBooked();
         Seat seat=new Seat();
         seat.setId(1);
-        SeatBooked.setSeat(seat);
+        seatBooked.setSeat(seat);
         Booking Booking=new Booking();
         Booking.setId(2);
         Booking.setBookingTime("02:02:02");
-        SeatBooked.setBooking(Booking);
+        seatBooked.setBooking(Booking);
         Show show=new Show();
         show.setId(5);
         Booking.setShow(show);
         Payment payment=new Payment();
         payment.setId(4);
         payment.setPaymentTime("04:04:04");
-        //when(SeatBookedRepo.save(ArgumentMatchers.any(SeatBooked.class))).thenReturn(SeatBooked);
-        given(SeatBookedRepo.save(ArgumentMatchers.any(SeatBooked.class))).willReturn(SeatBooked);
+        //when(SeatBookedRepo.save(ArgumentMatchers.any(seatBooked.class))).thenReturn(seatBooked);
+        given(seatBookedRepo.save(ArgumentMatchers.any(SeatBooked.class))).willReturn(seatBooked);
         given(paymentRepo.save(ArgumentMatchers.any(Payment.class))).willReturn(payment);
-        given(BookingRepo.findById(2)).willReturn(Optional.of(Booking));
+        given(bookingRepo.findById(2)).willReturn(Optional.of(Booking));
         given(seatRepo.findById(1)).willReturn(Optional.of(seat));
         given(showRepo.findById(5)).willReturn((Optional.of(show)));
-        SeatBooked newSeatBooked=SeatBookedService.addSeatBooked(1,2,5,SeatBooked);
-        assertThat(newSeatBooked).isSameAs(SeatBooked);
-        verify(SeatBookedRepo).save(SeatBooked);
+        SeatBooked newSeatBooked= seatBookedService.addSeatBooked(1,2,5,seatBooked);
+        assertThat(newSeatBooked).isSameAs(seatBooked);
+        verify(seatBookedRepo).save(seatBooked);
 
     }
 
@@ -105,10 +102,10 @@ public class SeatBookedServiceTest {
     {
         List<SeatBooked> SeatBookedList= new ArrayList<>();
         SeatBookedList.add(new SeatBooked());
-        given(SeatBookedRepo.findAll()).willReturn(SeatBookedList);
-        List<SeatBooked> expected=SeatBookedService.getSeatBooked();
+        given(seatBookedRepo.findAll()).willReturn(SeatBookedList);
+        List<SeatBooked> expected= seatBookedService.getSeatBooked();
         assertEquals(SeatBookedList,expected);
-        verify(SeatBookedRepo).findAll();
+        verify(seatBookedRepo).findAll();
     }
 
     @Test
@@ -116,9 +113,9 @@ public class SeatBookedServiceTest {
     {
         SeatBooked SeatBooked=new SeatBooked();
         SeatBooked.setId(1);
-        when(SeatBookedRepo.findById(SeatBooked.getId())).thenReturn(Optional.of(SeatBooked));
-        SeatBookedService.deleteSeatBooked(SeatBooked.getId());
-        verify(SeatBookedRepo).deleteById(SeatBooked.getId());
+        when(seatBookedRepo.findById(SeatBooked.getId())).thenReturn(Optional.of(SeatBooked));
+        seatBookedService.deleteSeatBooked(SeatBooked.getId());
+        verify(seatBookedRepo).deleteById(SeatBooked.getId());
     }
 
 }

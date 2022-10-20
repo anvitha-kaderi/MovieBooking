@@ -16,8 +16,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -39,9 +37,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers= PaymentController.class)
-@ActiveProfiles("staging")
-//@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
-//@SpringBootTest(classes = MovieBookingApplication.class)
 public class PaymentControllerTest {
 
     @Autowired
@@ -73,10 +68,10 @@ public class PaymentControllerTest {
     @Test
     public void deletePaymenttesting() throws Exception
     {
-        Payment Payment1=new Payment();
-        Payment1.setId(1);
-        doNothing().when(Service).deletepayment(Payment1.getId());
-        mockMvc.perform(delete("/payment/"+Integer.toString(Payment1.getId())).contentType("application/json"))
+        Payment payment=new Payment();
+        payment.setId(1);
+        doNothing().when(Service).deletepayment(payment.getId());
+        mockMvc.perform(delete("/payment/"+Integer.toString(payment.getId())).contentType("application/json"))
                 .andExpect(status().isOk());
 
     }

@@ -6,8 +6,6 @@ import com.example.MovieBooking.Repository.CityRepo;
 import com.example.MovieBooking.Service.CinemaService;
 import com.example.MovieBooking.model.Cinema;
 import com.example.MovieBooking.model.City;
-import org.checkerframework.checker.units.qual.C;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +15,6 @@ import org.mockito.*;
 
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +32,13 @@ import static org.mockito.Mockito.when;
 public class CinemaServiceTest {
 
     @Mock
-    private CinemaRepo CinemaRepo;
+    private CinemaRepo cinemaRepo;
 
     @Mock
     private CityRepo cityRepo;
 
     @InjectMocks
-    private CinemaService CinemaService;
+    private CinemaService cinemaService;
 
 //    @Before
 //    public void setup() {
@@ -59,11 +56,11 @@ public class CinemaServiceTest {
         city.setState("karnataka");
         cinema.setCity(city);
         //when(CinemaRepo.save(ArgumentMatchers.any(Cinema.class))).thenReturn(Cinema);
-        given(CinemaRepo.save(ArgumentMatchers.any(Cinema.class))).willReturn(cinema);
+        given(cinemaRepo.save(ArgumentMatchers.any(Cinema.class))).willReturn(cinema);
         given(cityRepo.findById(2)).willReturn(Optional.of(city));
-        Cinema newCinema=CinemaService.addCinema(2,cinema);
+        Cinema newCinema= cinemaService.addCinema(2,cinema);
         assertThat(newCinema).isSameAs(cinema);
-        verify(CinemaRepo).save(cinema);
+        verify(cinemaRepo).save(cinema);
 
     }
 
@@ -76,10 +73,10 @@ public class CinemaServiceTest {
         Cinema newCinema=new Cinema();
         newCinema.setId(1);
         newCinema.setName("rrr");
-        given(CinemaRepo.findById(oldCinema.getId())).willReturn(Optional.of(oldCinema));
-        CinemaService.updateCinema(oldCinema.getId(),newCinema);
-        verify(CinemaRepo).save(newCinema);
-        verify(CinemaRepo).findById(oldCinema.getId());
+        given(cinemaRepo.findById(oldCinema.getId())).willReturn(Optional.of(oldCinema));
+        cinemaService.updateCinema(oldCinema.getId(),newCinema);
+        verify(cinemaRepo).save(newCinema);
+        verify(cinemaRepo).findById(oldCinema.getId());
     }
 
 
@@ -88,21 +85,21 @@ public class CinemaServiceTest {
     {
         List<Cinema> CinemaList= new ArrayList<>();
         CinemaList.add(new Cinema());
-        given(CinemaRepo.findAll()).willReturn(CinemaList);
-        List<Cinema> expected=CinemaService.getCinema();
+        given(cinemaRepo.findAll()).willReturn(CinemaList);
+        List<Cinema> expected= cinemaService.getCinema();
         assertEquals(CinemaList,expected);
-        verify(CinemaRepo).findAll();
+        verify(cinemaRepo).findAll();
     }
 
     @Test
     public void DeleteCinemaTesting()
     {
-        Cinema Cinema=new Cinema();
-        Cinema.setId(1);
-        Cinema.setName("rrr");
-        when(CinemaRepo.findById(Cinema.getId())).thenReturn(Optional.of(Cinema));
-        CinemaService.deleteCinema(Cinema.getId());
-        verify(CinemaRepo).deleteById(Cinema.getId());
+        Cinema cinema=new Cinema();
+        cinema.setId(1);
+        cinema.setName("rrr");
+        when(cinemaRepo.findById(cinema.getId())).thenReturn(Optional.of(cinema));
+        cinemaService.deleteCinema(cinema.getId());
+        verify(cinemaRepo).deleteById(cinema.getId());
     }
 
 }

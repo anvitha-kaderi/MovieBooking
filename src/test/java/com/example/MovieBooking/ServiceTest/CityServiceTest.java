@@ -49,7 +49,6 @@ public class CityServiceTest {
         City city=new City();
         city.setCityname("mangalore");
         city.setState("Karnataka");
-        //when(cityRepo.save(ArgumentMatchers.any(City.class))).thenReturn(city);
         given(cityRepo.save(ArgumentMatchers.any(City.class))).willReturn(city);
         City newCity=cityService.addCity(city);
         assertThat(newCity).isSameAs(city);
@@ -78,11 +77,11 @@ public class CityServiceTest {
     @Test
     public void GetCityTesting()
     {
-        List<City> CityList= new ArrayList<>();
-        CityList.add(new City());
-        given(cityRepo.findAll()).willReturn(CityList);
+        List<City> cityList= new ArrayList<>();
+        cityList.add(new City());
+        given(cityRepo.findAll()).willReturn(cityList);
         List<City> expected=cityService.getCity();
-        assertEquals(CityList,expected);
+        assertEquals(cityList,expected);
         verify(cityRepo).findAll();
     }
 
